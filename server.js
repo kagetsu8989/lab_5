@@ -11,6 +11,7 @@ require('dotenv').config({
 const lostItemsRoutes = require('./routes/lostItems');
 const foundItemsRoutes = require('./routes/foundItems');
 const itemsRoutes = require('./routes/items');
+const authRoutes = require('./routes/auth');
 
 // Express application үүсгэх
 const app = express();
@@ -46,6 +47,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/lost-items', lostItemsRoutes);
 app.use('/api/found-items', foundItemsRoutes);
 app.use('/api/items', itemsRoutes);
+app.use('/api/auth', authRoutes);
 
 // Олдоогүй route
 app.use((req, res) => {
