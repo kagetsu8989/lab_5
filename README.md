@@ -84,3 +84,19 @@ git push -u origin main
 ```
 
 `USERNAME`-ийг өөрийн GitHub username-аар солино.
+
+## Definition of Done (DoD) - CI Requirements
+
+Sprint-ийн User Story-г Done гэж үзэхийн тулд:
+
+- [ ] Acceptance Criteria хангагдсан байх.
+- [ ] Код бичиж дууссан, функц ажилладаг байх.
+- [ ] Input validation болон security шалгалт хийгдсэн байх.
+- [ ] Код Git repository-д commit хийгдсэн байх.
+- [ ] npm ci амжилттай ажилласан байх.
+- [ ] npm test-ийн бүх автомат тест PASS болсон байх.
+- [ ] GitHub Actions CI workflow амжилттай дууссан байх.
+- [ ] CI алдаа гарвал log шалгаж, алдааг зассан байх.
+- [ ] Кодын өөрчлөлт review хийгдсэн байх.
+- [ ] README болон ажиллуулах заавар шинэчлэгдсэн байх.
+
