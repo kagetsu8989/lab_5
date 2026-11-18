@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101c38">
+  <title>Findly — Lost & Found</title>
+  <link rel="stylesheet" href="/ui/style.css">
+  <script src="/ui/app.js" defer></script>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" class="svg-defs" aria-hidden="true">
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="m3 7 9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3-7 8-7s8 3 8 7"/></symbol>
+    <symbol id="i-out" viewBox="0 0 24 24"><path d="M10 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5M14 16l4-4-4-4M8 12h10"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="m5 5 14 14M19 5 5 19"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A8 8 0 0 1 19 7l1 5M4 12l1 5a8 8 0 0 0 13.5-2"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 2 9 4v6c0 5-4 8-9 10-5-2-9-5-9-10V6z"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.2a5.3 5.3 0 0 0-7.5 0L12 6.5l-1.3-1.3a5.3 5.3 0 1 0-7.5 7.5L12 21l8.8-8.3a5.3 5.3 0 0 0 0-7.5z"/></symbol>
+  </svg>
+
+  <div class="app-shell" id="appShell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="/ui/" aria-label="Findly нүүр">
+        <span class="brand-icon"><svg class="icon"><use href="#i-pin"/></svg></span>
+        <span><strong>findly<span class="brand-dot">.</span></strong><small>Lost &amp; Found</small></span>
+      </a>
+      <p class="side-label">ЦЭС</p>
+      <nav class="side-nav" aria-label="Үндсэн цэс">
+        <button type="button" class="nav-item active" data-nav="all"><svg class="icon"><use href="#i-home"/></svg> Нүүр хуудас</button>
+        <button type="button" class="nav-item" data-nav="lost"><svg class="icon"><use href="#i-search"/></svg> Гээсэн эд зүйлс</button>
+        <button type="button" class="nav-item" data-nav="found"><svg class="icon"><use href="#i-shield"/></svg> Олдсон эд зүйлс</button>
+        <button type="button" class="nav-item" data-nav="mine"><svg class="icon"><use href="#i-user"/></svg> Миний бүртгэлүүд</button>
+        <p class="side-label side-action-label">БҮРТГЭХ</p>
+        <button type="button" class="nav-item" id="sideCreate"><svg class="icon"><use href="#i-plus"/></svg> Гээсэн зүйл бүртгэх</button>
+        <button type="button" class="nav-item nav-found" id="sideCreateFound"><svg class="icon"><use href="#i-shield"/></svg> Олсон зүйл бүртгэх</button>
+      </nav>
+      <div class="sidebar-help">
+        <span class="help-emoji">✨</span>
+        <strong>Алдсан зүйлээ олоход нэг алхам ойр.</strong>
+        <p>Бүртгэл үүсгэж, бусадтай мэдээллээ хуваалцаарай.</p>
+      </div>
+      <div class="side-footer">© 2026 Findly · Lab №11</div>
+    </aside>
+
+    <div class="main-column">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="menuButton" aria-label="Цэс нээх"><svg class="icon"><use href="#i-menu"/></svg></button>
+        <div class="breadcrumb">Хяналтын самбар <span>/</span> <b>Нүүр</b></div>
+        <div class="top-actions">
+          <span class="top-status"><span class="online-dot"></span> Систем ажиллаж байна</span>
+          <button class="top-login" id="topLogin" type="button"><svg class="icon"><use href="#i-user"/></svg><span id="accountLabel">Нэвтрэх</span></button>
+          <button class="icon-button" id="logoutButton" title="Гарах" aria-label="Гарах" hidden><svg class="icon"><use href="#i-out"/></svg></button>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="page-caption"><span class="eyebrow">ХЯНАЛТЫН САМБАР</span><span id="todayLabel"></span></div>
+        <section class="welcome-hero" aria-label="Танилцуулга">
+          <div class="hero-pattern"></div>
+          <div class="hero-body">
+            <span class="hero-chip"><svg class="icon"><use href="#i-heart"/></svg> Нэг мэдээлэл, нэг боломж</span>
+            <h1>Алдсан зүйлээ олоход<br><em>хамтдаа тусалъя.</em></h1>
+            <p>Гээсэн болон олсон эд зүйлсийн мэдээллийг нэг дороос бүртгэж, хайж, хуваалцаарай.</p>
+            <div class="hero-actions"><button type="button" class="btn btn-light" id="heroCreate"><svg class="icon"><use href="#i-plus"/></svg> Гээсэн зүйл бүртгэх <svg class="icon small"><use href="#i-arrow"/></svg></button><button type="button" class="btn btn-outline-light" id="heroCreateFound"><svg class="icon"><use href="#i-shield"/></svg> Олсон зүйл бүртгэх</button></div>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="visual-disc disc-back"></div>
+            <div class="visual-disc disc-front"></div>
+            <div class="visual-center"><svg class="icon"><use href="#i-search"/></svg></div>
+            <div class="floating-note note-one">📱 <span>Утас</span></div>
+            <div class="floating-note note-two">🔑 <span>Түлхүүр</span></div>
+            <div class="floating-note note-three">🎒 <span>Цүнх</span></div>
+          </div>
+        </section>
+
+        <section class="stat-grid" aria-label="Товч статистик">
+          <article class="stat-card"><span class="stat-icon purple"><svg class="icon"><use href="#i-box"/></svg></span><div><span>Нийт бүртгэл</span><strong id="statTotal">—</strong><small>Бүх эд зүйл</small></div></article>
+          <article class="stat-card"><span class="stat-icon coral"><svg class="icon"><use href="#i-search"/></svg></span><div><span>Гээсэн зүйлс</span><strong id="statLost">—</strong><small>Алдсан бүртгэл</small></div></article>
+          <article class="stat-card"><span class="stat-icon mint"><svg class="icon"><use href="#i-shield"/></svg></span><div><span>Олдсон зүйлс</span><strong id="statFound">—</strong><small>Олсон бүртгэл</small></div></article>
+          <article class="stat-card"><span class="stat-icon gold"><svg class="icon"><use href="#i-user"/></svg></span><div><span>Миний бүртгэл</span><strong id="statMine">—</strong><small>Нэвтэрсний дараа</small></div></article>
+        </section>
+
+        <section class="compose-panel" id="createPanel" hidden>
+          <div class="panel-heading"><div><span class="eyebrow" id="createKicker">ГЭЭСЭН ЭД ЗҮЙЛ</span><h2 id="createHeading">Гээсэн эд зүйл бүртгэх</h2><p id="createDescription">Мэдээллээ үнэн зөв оруулснаар олоход илүү хялбар.</p></div><button class="icon-button" id="closeCreate" aria-label="Хаах"><svg class="icon"><use href="#i-x"/></svg></button></div>
+          <div class="create-kind-switch" role="group" aria-label="Эд зүйлийн бүртгэлийн төрөл">
+            <button class="kind-option active" type="button" data-create-kind="lost" aria-pressed="true"><svg class="icon"><use href="#i-search"/></svg> Би эд зүйлээ гээсэн</button>
+            <button class="kind-option" type="button" data-create-kind="found" aria-pressed="false"><svg class="icon"><use href="#i-shield"/></svg> Би эд зүйл олсон</button>
+          </div>
+          <form id="itemForm" class="item-form">
+            <div class="input-group"><label for="itemName">Эд зүйлийн нэр *</label><input id="itemName" maxlength="150" placeholder="Жишээ: Хар өнгийн гар утас" required></div>
+            <div class="input-group"><label for="category">Ангилал *</label><select id="category" required><option value="">Ангилал сонгох</option><option>Цахилгаан хэрэгсэл</option><option>Бичиг баримт</option><option>Цүнх</option><option>Түлхүүр</option><option>Бусад</option></select></div>
+            <div class="input-group wide"><label for="description">Тайлбар *</label><textarea id="description" rows="3" placeholder="Өнгө, таних тэмдэг, онцлог..." required></textarea></div>
+            <div class="input-group"><label for="itemDate" id="itemDateLabel">Алдсан огноо *</label><input id="itemDate" type="date" required></div>
+            <div class="input-group"><label for="itemLocation" id="itemLocationLabel">Алдсан байршил *</label><input id="itemLocation" maxlength="255" placeholder="Жишээ: МУИС, номын сан" required></div>
+            <div class="wide form-bottom"><span class="form-message" id="itemMessage" role="status"></span><button class="btn btn-primary" type="submit" id="createSubmit">Бүртгэх <svg class="icon small"><use href="#i-arrow"/></svg></button></div>
+          </form>
+        </section>
+
+        <section class="listing-panel" id="listingPanel">
+          <div class="listing-head"><div><span class="eyebrow">ОЛОН НИЙТИЙН БҮРТГЭЛ</span><h2 id="listTitle">Сүүлийн бүртгэлүүд</h2><p>Хайлт, ангиллаар хүссэн мэдээллээ олоорой.</p></div><button class="refresh-button" id="refreshButton" type="button"><svg class="icon"><use href="#i-refresh"/></svg> Шинэчлэх</button></div>
+          <div class="filters"><div class="tabs" role="group" aria-label="Бүртгэлийн төрөл"><button class="tab active" data-type="all">Бүгд</button><button class="tab" data-type="lost">Гээсэн</button><button class="tab" data-type="found">Олдсон</button></div><label class="search-box"><svg class="icon"><use href="#i-search"/></svg><span class="sr-only">Эд зүйл хайх</span><input id="searchInput" type="search" placeholder="Нэр, байршлаар хайх..."></label></div>
+          <p class="list-message" id="listMessage" role="status"></p>
+          <div class="items-grid" id="itemsGrid"></div>
+        </section>
+      </main>
+      <footer class="main-footer">Findly — Lost &amp; Found System <span>Software Engineering · Lab №11</span></footer>
+    </div>
+  </div>
+
+  <div class="auth-overlay" id="authOverlay" hidden>
+    <div class="auth-window" role="dialog" aria-modal="true" aria-labelledby="authHeading">
+      <div class="auth-aside">
+        <div class="auth-aside-brand"><span class="brand-icon"><svg class="icon"><use href="#i-pin"/></svg></span> findly<span>.</span></div>
+        <div class="auth-art" aria-hidden="true"><div class="art-circle art-one"></div><div class="art-circle art-two"></div><span>🔎</span></div>
+        <h2>Хайж байгаа зүйлээ<br>хамтдаа олцгооё.</h2>
+        <p>Таны нэг бүртгэл хэн нэгэнд үнэтэй тус хүргэж магадгүй.</p>
+      </div>
+      <div class="auth-main">
+        <button class="auth-close icon-button" id="closeAuth" aria-label="Цонх хаах"><svg class="icon"><use href="#i-x"/></svg></button>
+        <div class="auth-mobile-logo">findly<span>.</span></div>
+        <div class="auth-view" id="loginView">
+          <div class="auth-kicker">ТАВТАЙ МОРИЛ</div><h2 id="authHeading">Дахин уулзсандаа баяртай байна!</h2><p class="auth-subtitle">Бүртгэлдээ нэвтэрч, мэдээллээ удирдаарай.</p>
+          <form id="loginForm" class="auth-form">
+            <label>Имэйл хаяг<input id="loginEmail" type="email" autocomplete="username" placeholder="name@example.com" required></label>
+            <label>Нууц үг<input id="loginPassword" type="password" autocomplete="current-password" placeholder="Нууц үгээ оруулна уу" required></label>
+            <button class="text-link right-link" id="forgotTrigger" type="button">Нууц үгээ мартсан уу?</button>
+            <button class="btn btn-primary auth-submit" id="loginSubmit" type="submit">Нэвтрэх <svg class="icon small"><use href="#i-arrow"/></svg></button>
+          </form>
+          <p class="auth-switch">Бүртгэлгүй юу? <button class="text-link" id="registerTrigger" type="button">Шинээр бүртгүүлэх</button></p>
+        </div>
+        <div class="auth-view" id="registerView" hidden>
+          <div class="auth-kicker">ШИНЭ ХЭРЭГЛЭГЧ</div><h2>Бүртгэл үүсгэх</h2><p class="auth-subtitle">Нэг минутанд нэгдэж, мэдээллээ хуваалцаарай.</p>
+          <form id="registerForm" class="auth-form">
+            <label>Таны нэр<input id="registerName" autocomplete="name" maxlength="100" placeholder="Нэрээ оруулна уу" required></label>
+            <label>Имэйл хаяг<input id="registerEmail" type="email" autocomplete="email" placeholder="name@example.com" required></label>
+            <label>Нууц үг<input id="registerPassword" type="password" autocomplete="new-password" minlength="12" placeholder="Хамгийн багадаа 12 тэмдэгт" required></label>
+            <label>Нууц үг давтах<input id="registerConfirm" type="password" autocomplete="new-password" minlength="12" placeholder="Нууц үгээ давтана уу" required></label>
+            <button class="btn btn-primary auth-submit" id="registerSubmit" type="submit">Бүртгэл үүсгэх <svg class="icon small"><use href="#i-arrow"/></svg></button>
+          </form>
+          <p class="auth-switch">Бүртгэлтэй юу? <button class="text-link" type="button" data-go="login">Нэвтрэх</button></p>
+        </div>
+        <div class="auth-view" id="forgotView" hidden>
+          <div class="auth-kicker">НУУЦ ҮГ СЭРГЭЭХ</div><h2>Санаа зоволтгүй.</h2><p class="auth-subtitle">Бүртгэлтэй имэйл хаягаа оруулж, нууц үг сэргээх холбоос аваарай.</p>
+          <form id="forgotForm" class="auth-form">
+            <label>Имэйл хаяг<input id="forgotEmail" type="email" autocomplete="email" placeholder="name@example.com" required></label>
+            <button class="btn btn-primary auth-submit" id="forgotSubmit" type="submit">Сэргээх холбоос авах <svg class="icon small"><use href="#i-arrow"/></svg></button>
+          </form>
+          <div class="dev-link" id="devResetLink" hidden></div>
+          <p class="auth-switch"><button class="text-link" type="button" data-go="login">← Нэвтрэх рүү буцах</button></p>
+        </div>
+        <div class="auth-view" id="resetView" hidden>
+          <div class="auth-kicker">НУУЦ ҮГ ШИНЭЧЛЭХ</div><h2>Шинэ нууц үг</h2><p class="auth-subtitle">Дор хаяж 12 тэмдэгттэй шинэ нууц үг тохируулна уу.</p>
+          <form id="resetForm" class="auth-form">
+            <label>Шинэ нууц үг<input id="resetPassword" type="password" minlength="12" autocomplete="new-password" required></label>
+            <label>Нууц үг давтах<input id="resetConfirm" type="password" minlength="12" autocomplete="new-password" required></label>
+            <button class="btn btn-primary auth-submit" id="resetSubmit" type="submit">Нууц үг шинэчлэх <svg class="icon small"><use href="#i-arrow"/></svg></button>
+          </form>
+          <p class="auth-switch"><button class="text-link" type="button" data-go="login">← Нэвтрэх рүү буцах</button></p>
+        </div>
+        <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

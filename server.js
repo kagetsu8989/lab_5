@@ -21,6 +21,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Frontend файлуудыг /ui хаягаар үзүүлэх
+app.use('/ui', express.static(path.join(__dirname, 'public')));
+
 // Үндсэн хуудас
 app.get('/', (req, res) => {
   res.json({
