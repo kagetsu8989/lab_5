@@ -1,4 +1,4 @@
-
+﻿
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -70,6 +70,11 @@ app.use((err, req, res, next) => {
 // Сервер эхлүүлэх
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server running: http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running: http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
+
