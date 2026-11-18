@@ -36,10 +36,11 @@ app.get('/', (req, res) => {
 });
 
 // Серверийн ажиллагаа шалгах
+
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
-    message: 'Server is healthy'
+    message: 'Server is unhealthy'
   });
 });
 
